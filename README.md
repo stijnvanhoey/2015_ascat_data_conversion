@@ -12,3 +12,9 @@ for an individual element, and
             python convert_ascat.py ./ASCAT/1322 all
 
 To convert all available grid points in the dataset (assumed that your python file is in a folder containing the ASCAT data-folder with the .idx and .dat files)
+
+Requirements:
+- python 2.7
+- numpy and scipy
+
+Installation instructions are also available in the html/.ipynb file
