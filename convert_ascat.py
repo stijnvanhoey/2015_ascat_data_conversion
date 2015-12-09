@@ -42,10 +42,12 @@ def convert_ascat_to_matlab(filename, grid_point_id='all', byte2skip=208):
     f = open(''.join([filename, ".dat"]), "rb")  # reopen the file
     f.seek(byte2skip, os.SEEK_SET)  # seek
     data = np.fromfile(f, dtype=struct_dat)
+    print 'data loaded'
 
     # writing a file for each gridpoint
     if grid_point_id == 'all':
         for grid_point in unique_idx:
+            print "working on grid point", str(grid_point)
             data_dict = {}
             indxs_point = np.where(idx_data == grid_point)
             current_selection = data[indxs_point]
@@ -53,11 +55,12 @@ def convert_ascat_to_matlab(filename, grid_point_id='all', byte2skip=208):
             sio.savemat(''.join([filename, '_', str(grid_point)]), data_dict) #.mat is automatically appended
     else:
         if grid_point_id in unique_idx:
+            print "working on grid point", str(grid_point_id)
             grid_point = grid_point_id
             data_dict = {}
             indxs_point = np.where(idx_data == grid_point)
             current_selection = data[indxs_point]
-            data_dict[''.join(['grid_point_',str(grid_point)])] = current_selection
+            data_dict[''.join(['grid_point_', str(grid_point)])] = current_selection
             sio.savemat(''.join([filename, '_', str(grid_point)]), data_dict) #.mat is automatically appended
         else:
             raise Exception('grid_point id not available...')
@@ -73,12 +76,10 @@ def main(argv=None):
     if sys.argv[2] == 'all':
         convert_ascat_to_matlab(sys.argv[1], grid_point_id='all', byte2skip=208)
     else:
-        try:
-            convert_ascat_to_matlab(sys.argv[1],
-                                grid_point_id=int(sys.argv[2]),
-                                byte2skip=208)
-        except:
-            raise Exception('Conversion failed...')
+        print 'Extracting grid point', sys.argv[2]
+        convert_ascat_to_matlab(sys.argv[1],
+                            grid_point_id=int(sys.argv[2]),
+                            byte2skip=208)
 
 if __name__ == "__main__":
     sys.exit(main())
