@@ -56,4 +56,6 @@ docs/_build/
 # PyBuilder
 target/
 
+# Stijn added
 ASCAT/
+.ipynb_checkpoints
